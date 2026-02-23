@@ -72,4 +72,6 @@ class Quandary(CachedCMakePackage, CudaPackage, ROCmPackage):
         entries.append(cmake_cache_option("WITH_SLEPC", spec.satisfies("+slepc")))
         entries.append(cmake_cache_option("ENABLE_WARNINGS_AS_ERRORS", spec.satisfies("+werror")))
 
+        entries.append(cmake_cache_option("BUILD_PYTHON_BINDINGS", False))
+
         return entries
