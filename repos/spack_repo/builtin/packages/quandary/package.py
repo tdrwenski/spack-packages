@@ -63,8 +63,6 @@ class Quandary(CachedCMakePackage, CudaPackage, ROCmPackage):
     with when("+python"):
         depends_on("python@3.9:", type=("build", "run"))
         depends_on("py-nanobind@2.1:", type="build")
-        depends_on("py-numpy@1.26:", type=("build", "run"))
-        depends_on("py-mpi4py@3.1:", type=("build", "run"))
 
     with when("+test"):
         depends_on("python", type="run")
@@ -83,6 +81,7 @@ class Quandary(CachedCMakePackage, CudaPackage, ROCmPackage):
 
         if spec.satisfies("+python"):
             entries.append(cmake_cache_option("BUILD_PYTHON_BINDINGS", True))
+            entries.append(cmake_cache_option("BUILD_PYTHON_STUBS", False))
             entries.append(cmake_cache_path(
                 "QUANDARY_PYTHON_INSTALL_DIR",
                 join_path(python_platlib, "quandary"),
