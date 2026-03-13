@@ -51,7 +51,7 @@ class Quandary(CachedCMakePackage, CudaPackage, ROCmPackage):
 
     with when("+rocm"):
         for arch_ in ROCmPackage.amdgpu_targets:
-            depends_on(f"petsc+rocm amdgpu_target={arch_}", when=f"amdgpu_target={arch_}")
+            depends_on(f"petsc+rocm+kokkos amdgpu_target={arch_}", when=f"amdgpu_target={arch_}")
 
     with when("+cuda"):
         for sm_ in CudaPackage.cuda_arch_values:
