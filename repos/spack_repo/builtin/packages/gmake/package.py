@@ -87,6 +87,18 @@ class Gmake(Package, GNUMirrorPackage):
             # The default CXX value should be generic, not CXX from the current build as it points
             # to the compiler wrapper by absolute path.
             filter_file(r"^#define MAKE_CXX .*$", "#undef MAKE_CXX", config_h)
+            if spec.satisfies("@4.4:"):
+                filter_file(
+                    r"extern char \*getenv \(\);",
+                    "extern char *getenv (const char *);",
+                    join_path(self.stage.source_path, "lib", "fnmatch.c"),
+                    join_path(self.stage.source_path, "src", "getopt.c"),
+                )
+                filter_file(
+                    r"extern int getopt \(\);",
+                    "extern int getopt (int argc, char *const *argv, const char *shortopts);",
+                    join_path(self.stage.source_path, "src", "getopt.h"),
+                )
             Executable(build_sh)()
             os.mkdir(prefix.bin)
             install("make", prefix.bin)
